@@ -1,0 +1,3 @@
+.tw-modal .ant-modal {
+    @apply h-96; /* Set the height as auto, or use any other Tailwind height class */
+  }

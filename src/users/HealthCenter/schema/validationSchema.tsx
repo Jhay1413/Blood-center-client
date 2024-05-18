@@ -43,6 +43,6 @@ export const validationSchemaForAdding = Yup.object({
     }),
     time: Yup.string().required('time is required'),
     date: Yup.date(),
-    status: Yup.string().required('status Number is required'),
+    status: Yup.string().required('status is required'),
 
   });

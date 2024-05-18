@@ -125,6 +125,8 @@ const ActivityInfoModal = ({isModalOpen,cancelModal}:ActivityModalProps) => {
                                                 className="p-2 border-2 rounded-lg"
                                             >
                                                 <option value="pending" label="Pending" />
+                                                <option value="pending" label="Pending" />
+                                                
                                                
                 
                                                 {/* Add more options as needed */}

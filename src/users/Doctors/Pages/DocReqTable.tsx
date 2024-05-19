@@ -1,6 +1,6 @@
 import { Button, Input, Modal, Space, Table } from "antd";
 import { useState } from "react";
-import {  getDocData } from "../context/DocDataContext";
+import { getDocData } from "../context/DocDataContext";
 import { PatientInfo, PatientRequestValues, PhysicianInfo } from "../../../components/Interface/Interface";
 import { deleteRequest, downloadRequestFile } from "../../../api/patientRequestApi";
 import moment from 'moment';
@@ -8,7 +8,6 @@ const DocRequestPage = () => {
 
   const [searchedData,setSearchData] = useState("");
   const [isModalOpen,setIsModalOpen] = useState(false);
-  const [onCloseModal,setOnCloseModal] = useState(false);
   const [selectedId,setSeletecId] = useState("");
 
   const contextValue = getDocData()

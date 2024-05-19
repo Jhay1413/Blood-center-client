@@ -22,7 +22,7 @@ const RegistrationPage = () => {
         }))
     }
     const submitForm = async () =>{
-        const response = await registerUser(userInfo);
+        await registerUser(userInfo);
     }
     return ( 
         <>

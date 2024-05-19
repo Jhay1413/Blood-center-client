@@ -4,7 +4,6 @@ import RegisterCenterModal from "../Modal/AddNewCenterAccount";
 import { useQueryClient } from "@tanstack/react-query";
 import { AccountArray, HealthCenterAccountArray, healthCenterInfoArray } from "../../../components/Interface/Interface";
 import { IoAddSharp } from "react-icons/io5";
-import AddPhysicianForm from "../Modal/AddPhysicianForm";
 
 
 
@@ -15,7 +14,7 @@ const AdminAccountPage = () => {
   const doctorAccount = queryClient.getQueryData<AccountArray>(['physicianAccounts']);
   const [tableValue, setTableValue] = useState<String>("DoctorTable")
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-  const [isDocModalOpen,setIsDocModalOpen] = useState<boolean>(false)
+
   //TABLE COLUMNS
   const healthCenterColumns = [
 
@@ -39,10 +38,6 @@ const AdminAccountPage = () => {
   const cancelModal = () => {
     setIsModalOpen(!isModalOpen)
   }
-  const cancelDocModal = () => {
-    setIsDocModalOpen(!isDocModalOpen)
-  }
-
   return (
     <>
       <div className="pt-2 pb-7">

@@ -1,6 +1,4 @@
-import { FaArrowRightToBracket } from 'react-icons/fa6';
-import { IoMdApps,IoIosList} from 'react-icons/io';
-import { getDocData } from '../context/DocDataContext';
+import { IoMdApps, IoIosList } from 'react-icons/io';
 import { IoNotificationsSharp } from 'react-icons/io5';
 
 

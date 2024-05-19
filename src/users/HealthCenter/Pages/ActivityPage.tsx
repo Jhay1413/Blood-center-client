@@ -5,9 +5,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ActivityInfoArray, postActivityInfo } from "../../../components/Interface/Interface";
 import moment from 'moment';
 import { deleteActivitiesById } from "../../../api/AdminAPI/AdminHealthCenterServices";
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { IoAddCircleOutline, IoAddSharp } from "react-icons/io5";
+import { IoAddSharp } from "react-icons/io5";
 const ActivityPage = () => {
     const queryClient = useQueryClient();
     const activities = queryClient.getQueryData<ActivityInfoArray>(['activityInfo']);
@@ -118,9 +118,6 @@ const ActivityPage = () => {
                         <div className="w-full justify-center items-center flex">
                         <Input.Search 
                           placeholder='searchbox'
-                          onChange={(e)=>{
-                           
-                          }}
                           className='md:w-52 p-2'
                         />
                       </div>

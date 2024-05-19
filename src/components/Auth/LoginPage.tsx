@@ -3,7 +3,6 @@ import { useAuth } from '../AuthContenxt/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { generateCode, loginUser, resetPassword } from '../../api/AuthApi';
 import { toast } from 'react-toastify';
-import loginSideImg from '../../assets/side-image.jpg'
 
 
 export interface Credentials {

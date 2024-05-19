@@ -1,9 +1,6 @@
 
-import { useState } from 'react';
-import loginSideImg from '../assets/side-image.jpg'
+import loginSideImg from '../assets/side-image.jpg';
 import LoginPage from './Auth/LoginPage';
-import RegistrationPage from './Auth/RegisterPage';
-import {FaArrowLeftLong} from "react-icons/fa6";
 const LandingPage = () => {
     return ( 
         <>

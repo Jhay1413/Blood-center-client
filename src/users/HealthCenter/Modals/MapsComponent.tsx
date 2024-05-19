@@ -1,9 +1,9 @@
-import { GoogleMap, InfoWindow, Marker, useJsApiLoader,Autocomplete } from "@react-google-maps/api";
+import { GoogleMap, InfoWindow, Marker, useJsApiLoader } from "@react-google-maps/api";
 import { Modal } from "antd";
 import { useState } from "react";
 import Combobox from "react-widgets/Combobox";
 import 'react-widgets/styles.css';
-import usePlacesAutoComplete,{getGeocode,getLatLng}from "use-places-autocomplete"
+import usePlacesAutoComplete, { getGeocode, getLatLng } from "use-places-autocomplete";
 const google_key = import.meta.env.VITE_MAP_KEY
 interface MarkerPosition {
     lat:number;

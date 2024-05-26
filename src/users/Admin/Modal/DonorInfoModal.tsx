@@ -1,79 +1,79 @@
 import { Modal, Spin } from "antd";
-import { ErrorMessage, Field, Formik,Form} from "formik";
+import { ErrorMessage, Field, Formik, Form } from "formik";
 
 
 
 import 'react-toastify/dist/ReactToastify.css';
-import { DonorInfoArray,  preDonorInfo } from "../../../components/Interface/Interface";
+import { DonorInfoArray, preDonorInfo } from "../../../components/Interface/Interface";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addNewDonorInfo } from "../../../api/AdminAPI/AdminHealthCenterServices";
 import { useState } from "react";
 import { validationSchemaForAdding } from "../schema/adminValidationSchema";
 
 
-interface DonorModalProps{
-    isModalOpen : boolean
-    cancelModal:()=>void
-   
-}   
+interface DonorModalProps {
+    isModalOpen: boolean
+    cancelModal: () => void
 
-const DonorInfoModal = ({isModalOpen,cancelModal}:DonorModalProps) => {
+}
+
+const DonorInfoModal = ({ isModalOpen, cancelModal }: DonorModalProps) => {
     const queryClient = useQueryClient();
-  
 
-    const[isLoading,setIsLoading] = useState(false)
-    const initialValues : preDonorInfo = {
-        firstName:"",
-        lastName:"",
-        contactNumber:"",
+
+    const [isLoading, setIsLoading] = useState(false)
+    const initialValues: preDonorInfo = {
+        firstName: "",
+        lastName: "",
+        contactNumber: "",
         address: "",
-        age:  "",
-        sex:"",
-        DOB:"",
-        bloodType:"",
+        age: "",
+        sex: "",
+        DOB: "",
+        bloodType: "",
         email: '',
         password: '',
         confirmPassword: '',
     }
-   
-    const clearForm = () =>{
-     
+
+    const clearForm = () => {
+
         cancelModal();
     }
     const mutation = useMutation({
-        mutationFn: async (donorInfo:preDonorInfo) => {
-          // Log the data before making the API call
-          console.log('Data to be sent to the API:', donorInfo);
-    
-          // Make the API call to post the new todo
-          const response = await addNewDonorInfo(donorInfo);
-    
-          // Check for a successful response
-          if (response) {
-            // Invalidate and refetch
-            queryClient.invalidateQueries({ queryKey: ['donorInfo'] });
-            return response; // Return the response data if needed
-          } else {
-            // Handle the API error
-            throw new Error('Failed to update data');
-          }
+        mutationFn: async (donorInfo: preDonorInfo) => {
+            // Log the data before making the API call
+            console.log('Data to be sent to the API:', donorInfo);
+
+            // Make the API call to post the new todo
+            const response = await addNewDonorInfo(donorInfo);
+
+            // Check for a successful response
+            if (response) {
+                // Invalidate and refetch
+                queryClient.invalidateQueries({ queryKey: ['donorInfo'] });
+                return response; // Return the response data if needed
+            } else {
+                // Handle the API error
+                throw new Error('Failed to update data');
+            }
         },
         onSuccess: (data) => {
 
-            queryClient.setQueryData(['donorInfo'], (existingData:DonorInfoArray) => {
+            queryClient.setQueryData(['donorInfo'], (existingData: DonorInfoArray) => {
                 return existingData?.concat(data);
-              });
+            });
             setIsLoading(false);
             cancelModal();
-          console.log('Mutation response data:', data);
+            console.log('Mutation response data:', data);
         },
         onError: (error) => {
-          // Log and handle the error
-          console.error('Mutation error:', error);
+            // Log and handle the error
+            console.error('Mutation error:', error);
         },
-      });
-    
-    return ( 
+    });
+
+    return (
         <>
             <div className="w-full">
                 <Modal open={isModalOpen} onCancel={clearForm} width='50%' footer={null}>
@@ -81,14 +81,14 @@ const DonorInfoModal = ({isModalOpen,cancelModal}:DonorModalProps) => {
                         <Formik
                             initialValues={initialValues}
                             validationSchema={validationSchemaForAdding}
-                            onSubmit={(values:preDonorInfo) => {
+                            onSubmit={(values: preDonorInfo) => {
                                 setIsLoading(true);
-                                
+
                                 // Call the mutation function when the form is submitted
                                 mutation.mutate(values)
-                              }}
-                            >
-                             
+                            }}
+                        >
+
                             <Form>
                                 <div className="flex flex-col">
                                     <h1 className='py-4 text-2xl '>Donor Information</h1>
@@ -105,7 +105,13 @@ const DonorInfoModal = ({isModalOpen,cancelModal}:DonorModalProps) => {
                                         </div>
                                         <div className="flex flex-col">
                                             <label>Sex</label>
-                                            <Field type="text" name="sex" className="p-2 border-2 rounded-lg" placeholder="Sex" />
+                                            <Field as="select" name="sex" className="p-2 border-2 rounded-lg" placeholder="Sex">
+
+                                                <option >Select Gender</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                            </Field>
+
                                             <ErrorMessage name="sex" component="div" className="text-red-500" />
                                         </div>
                                         <div className="flex flex-col">
@@ -124,26 +130,25 @@ const DonorInfoModal = ({isModalOpen,cancelModal}:DonorModalProps) => {
                                             <ErrorMessage name="address" component="div" className="text-red-500" />
                                         </div>
                                         <div className="flex flex-col">
-                                        <label>Blood Type</label>
-                                                <Field as="select" className='p-2 border-2' placeholder='Patients First Name' name="bloodType">
-                                                    <option >Select Blood Type</option>
-                                                    <option value="O">O</option>
-                                                    <option value="O+">O+</option>
-                                                    <option value="A">A</option>
-                                                    <option value="A+">A+</option>
-                                                    <option value="B+">B+</option>
-                                                    <option value="AB">AB</option>
-                                                </Field>
-                                                <ErrorMessage name="bloodType" component="div" className="text-red-500" />
+                                            <label>Blood Type</label>
+                                            <Field as="select" className='p-2 border-2' placeholder='Patients First Name' name="bloodType">
+                                                <option >Select Blood Type</option>
+                                                <option value="O">O</option>
+                                                <option value="O+">O+</option>
+                                                <option value="A+">A+</option>
+                                                <option value="B+">B+</option>
+                                                <option value="AB">AB+</option>
+                                            </Field>
+                                            <ErrorMessage name="bloodType" component="div" className="text-red-500" />
                                         </div>
-                                        
+
                                         <div className="flex flex-col">
                                             <label>Date of Birth</label>
                                             <Field type="text" name="DOB" className="p-2 border-2 rounded-lg" placeholder="Dat of birth" />
                                             <ErrorMessage name="DOB" component="div" className="text-red-500" />
                                         </div>
                                     </div>
-                                    
+
                                     <h1 className='py-4 text-2xl '>Donor Account</h1>
                                     <div className='grid grid-cols-4 gap-4'>
                                         <div className="flex flex-col col-span-2">
@@ -162,10 +167,10 @@ const DonorInfoModal = ({isModalOpen,cancelModal}:DonorModalProps) => {
                                             <ErrorMessage name="confirmPassword" component="div" className="text-red-500" />
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                                 <div className="pt-4 w-full flex justify-end">
-                                    <button className="px-4 py-2 bg-violet-500 text-white rounded-md" type="submit">{isLoading?<Spin/> : "Submit"}</button>
+                                    <button className="px-4 py-2 bg-violet-500 text-white rounded-md" type="submit">{isLoading ? <Spin /> : "Submit"}</button>
                                 </div>
                             </Form>
                         </Formik>
@@ -173,7 +178,7 @@ const DonorInfoModal = ({isModalOpen,cancelModal}:DonorModalProps) => {
                 </Modal>
             </div>
         </>
-     );
+    );
 }
- 
+
 export default DonorInfoModal;

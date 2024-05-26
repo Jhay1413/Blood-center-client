@@ -1,6 +1,6 @@
 import { Modal, Spin } from "antd";
-import { ErrorMessage, Field, Formik,Form} from "formik";
-import {  validationSchemaForAdding } from "../schema/validationSchema";
+import { ErrorMessage, Field, Formik, Form } from "formik";
+import { validationSchemaForAdding } from "../schema/validationSchema";
 
 import { useState } from "react";
 import { AuthContextType } from "../../../components/AuthContenxt/AuthContext";
@@ -11,33 +11,33 @@ import { AddingPatientInfo } from "../../../components/Interface/Interface";
 import { insertPatientInfo } from "../../../api/patientApi";
 
 
-interface PatientModalProps{
-    isModalOpen : boolean
-    cancelModal:()=>void
-    authData :AuthContextType
-}   
+interface PatientModalProps {
+    isModalOpen: boolean
+    cancelModal: () => void
+    authData: AuthContextType
+}
 
-const PatientModal = ({isModalOpen,cancelModal,authData}:PatientModalProps) => {
+const PatientModal = ({ isModalOpen, cancelModal, authData }: PatientModalProps) => {
     console.log(authData)
-    const[isLoading,setIsLoading] = useState(false)
-    const initialValues : AddingPatientInfo = {
-        firstName:   '',
+    const [isLoading, setIsLoading] = useState(false)
+    const initialValues: AddingPatientInfo = {
+        firstName: '',
         lastName: '',
-        sex:  '',
+        sex: '',
         age: '',
         contactNumber: '',
-        address:  '',
+        address: '',
     }
     const contextValue = getDocData();
-    const showToast  = () =>{
+    const showToast = () => {
         toast.success('Data Successfully inserted !');
     }
-    const handleSubmit = async (values:AddingPatientInfo,{resetForm} : any) =>{
+    const handleSubmit = async (values: AddingPatientInfo, { resetForm }: any) => {
         try {
             setIsLoading(true);
-          
-         
-           
+
+
+
             const response = await insertPatientInfo(values);
             console.log(response)
             showToast();
@@ -49,11 +49,11 @@ const PatientModal = ({isModalOpen,cancelModal,authData}:PatientModalProps) => {
         cancelModal();
         contextValue?.handleSetIsLoading()
     }
-    const clearForm = () =>{
-     
+    const clearForm = () => {
+
         cancelModal();
     }
-    return ( 
+    return (
         <>
             <div className="w-full">
                 <Modal open={isModalOpen} onCancel={clearForm} width='50%' footer={null}>
@@ -61,10 +61,10 @@ const PatientModal = ({isModalOpen,cancelModal,authData}:PatientModalProps) => {
                         <Formik
                             initialValues={initialValues}
                             validationSchema={validationSchemaForAdding}
-                            onSubmit={ handleSubmit}
-                       
-                            >
-                             
+                            onSubmit={handleSubmit}
+
+                        >
+
                             <Form>
                                 <div className="flex flex-col">
                                     <h1 className='py-4 text-2xl '>Patients Information</h1>
@@ -81,7 +81,12 @@ const PatientModal = ({isModalOpen,cancelModal,authData}:PatientModalProps) => {
                                         </div>
                                         <div className="flex flex-col">
                                             <label>Sex</label>
-                                            <Field type="text" name="sex" className="p-2 border-2 rounded-lg" placeholder="Sex" />
+                                            <Field as="select" name="sex" className="p-2 border-2 rounded-lg" placeholder="Sex">
+
+                                                <option >Select Gender</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                            </Field>
                                             <ErrorMessage name="sex" component="div" className="text-red-500" />
                                         </div>
                                         <div className="flex flex-col">
@@ -100,12 +105,12 @@ const PatientModal = ({isModalOpen,cancelModal,authData}:PatientModalProps) => {
                                             <ErrorMessage name="address" component="div" className="text-red-500" />
                                         </div>
                                     </div>
-                                    
-                                   
-                                    
+
+
+
                                 </div>
                                 <div className="pt-4 w-full flex justify-end">
-                                    <button className="px-4 py-2 bg-violet-500 text-white rounded-md" type="submit">{isLoading?<Spin/> : "Submit"}</button>
+                                    <button className="px-4 py-2 bg-violet-500 text-white rounded-md" type="submit">{isLoading ? <Spin /> : "Submit"}</button>
                                 </div>
                             </Form>
                         </Formik>
@@ -113,7 +118,7 @@ const PatientModal = ({isModalOpen,cancelModal,authData}:PatientModalProps) => {
                 </Modal>
             </div>
         </>
-     );
+    );
 }
- 
+
 export default PatientModal;

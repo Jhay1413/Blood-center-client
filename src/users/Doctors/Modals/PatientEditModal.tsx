@@ -1,6 +1,6 @@
 import { Modal, Spin } from "antd";
 import { ErrorMessage, Field, Form, Formik, FormikProps } from "formik";
-import {  validationSchemaForEditing } from "../schema/validationSchema";
+import { validationSchemaForEditing } from "../schema/validationSchema";
 import { useEffect, useRef, useState } from "react";
 import { toast } from 'react-toastify';
 import { PatientInfo } from "../../../components/Interface/Interface";
@@ -8,31 +8,31 @@ import { editPatientInfo } from "../../../api/patientApi";
 import { getDocData } from "../context/DocDataContext";
 
 interface PatientEditModalProps {
-    PatientInfo : PatientInfo
-    isModalOpen : boolean
-    cancelModal:()=>void
+    PatientInfo: PatientInfo
+    isModalOpen: boolean
+    cancelModal: () => void
 }
 
 
-const PatientEditModal = ({PatientInfo,isModalOpen,cancelModal} : PatientEditModalProps)=>{
-    const initialValues :PatientInfo = {
-        _id : '',
-        firstName:   '',
+const PatientEditModal = ({ PatientInfo, isModalOpen, cancelModal }: PatientEditModalProps) => {
+    const initialValues: PatientInfo = {
+        _id: '',
+        firstName: '',
         lastName: '',
-        sex:  '',
-        age: '' ,
+        sex: '',
+        age: '',
         contactNumber: '',
-        address:  '',
+        address: '',
     }
     const contextValue = getDocData();
-    useEffect(()=>{
-       formikRef.current?.setValues(PatientInfo)
-    },[PatientInfo])
+    useEffect(() => {
+        formikRef.current?.setValues(PatientInfo)
+    }, [PatientInfo])
 
-    const[isLoading,setIsLoading] = useState(false)
-    const formikRef = useRef <FormikProps<PatientInfo> | null>(null)
+    const [isLoading, setIsLoading] = useState(false)
+    const formikRef = useRef<FormikProps<PatientInfo> | null>(null)
 
-    const handleSubmit = async (values:PatientInfo, {resetForm}:any) =>{
+    const handleSubmit = async (values: PatientInfo, { resetForm }: any) => {
         try {
             const response = await editPatientInfo(values);
             console.log(response)
@@ -46,26 +46,26 @@ const PatientEditModal = ({PatientInfo,isModalOpen,cancelModal} : PatientEditMod
         }
     }
 
-    const onCloseModal = () =>{
+    const onCloseModal = () => {
         formikRef.current?.resetForm();
         cancelModal();
-    } 
-      const showToast = ()=>{
+    }
+    const showToast = () => {
         toast.success("Success Update !")
-      }
-    
-    return(
+    }
+
+    return (
         <>
-        <div className="w-full">
+            <div className="w-full">
                 <Modal open={isModalOpen} onCancel={onCloseModal} width='50%' footer={null}>
                     <div className='w-full'>
                         <Formik
                             initialValues={initialValues}
                             validationSchema={validationSchemaForEditing}
-                            onSubmit={ handleSubmit}
+                            onSubmit={handleSubmit}
                             innerRef={formikRef}
-                            >
-                             
+                        >
+
                             <Form>
                                 <div className="flex flex-col">
                                     <h1 className='py-4 text-2xl '>Patients Information</h1>
@@ -82,7 +82,11 @@ const PatientEditModal = ({PatientInfo,isModalOpen,cancelModal} : PatientEditMod
                                         </div>
                                         <div className="flex flex-col">
                                             <label>Sex</label>
-                                            <Field type="text" name="sex" className="p-2 border-2 rounded-lg" placeholder="Sex" />
+                                            <Field as="select" name="sex" className="p-2 border-2 rounded-lg" placeholder="Sex">
+                                                <option >Select Gender</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                            </Field>
                                             <ErrorMessage name="sex" component="div" className="text-red-500" />
                                         </div>
                                         <div className="flex flex-col">
@@ -100,10 +104,10 @@ const PatientEditModal = ({PatientInfo,isModalOpen,cancelModal} : PatientEditMod
                                             <Field type="text" name="address" className="p-2 border-2 rounded-lg" placeholder="Patients Address" />
                                             <ErrorMessage name="address" component="div" className="text-red-500" />
                                         </div>
-                                    </div> 
+                                    </div>
                                 </div>
                                 <div className="pt-4 w-full flex justify-end">
-                                    <button className="px-4 py-2 bg-violet-500 text-white rounded-md" type="submit">{isLoading?<Spin/> : "Submit"}</button>
+                                    <button className="px-4 py-2 bg-violet-500 text-white rounded-md" type="submit">{isLoading ? <Spin /> : "Submit"}</button>
                                 </div>
                             </Form>
                         </Formik>
